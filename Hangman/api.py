@@ -35,7 +35,8 @@ MEMCACHE_MOVES_REMAINING = 'MOVES_REMAINING'
 @endpoints.api(name='hangman', version='v1')
 class HangmanApi(remote.Service):
     """Game API"""
-    @endpoints.method(requestgage=StringMessage,
+    @endpoints.method(request_message=USER_REQUEST,
+                      response_message=StringMessage,
                       path='user',
                       name='create_user',
                       http_method='POST')

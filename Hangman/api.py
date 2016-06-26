@@ -87,7 +87,7 @@ class HangmanApi(remote.Service):
             raise endpoints.NotFoundException('Game not found!')
 
     @endpoints.method(request_message=CANCEL_GAME_REQUEST,
-                      response_message=StringMessage,
+                      response_message=GameForm,
                       path='game/{urlsafe_game_key}/cancel_game',
                       name='cancel_game',
                       http_method='PUT')
@@ -96,12 +96,12 @@ class HangmanApi(remote.Service):
         game = get_by_urlsafe(request.urlsafe_game_key, Game)
         if game:
             if game.game_over:
-                return StringMessage(message='Game {} Over! Cannot be cancelled'.format(request.urlsafe_game_key))
+                return game.to_form('Game cannot be cancelled!')
             else:
-                game.cancelled = True
+                game.is_cancelled = True
                 game.game_over = True
                 game.put()
-                return StringMessage(message='Game {} Cancelled!'.format(request.urlsafe_game_key))
+                return game.to_form('Game Cancelled!')
         else:
             raise endpoints.NotFoundException('Game not found!')
 
@@ -163,7 +163,7 @@ class HangmanApi(remote.Service):
              msg = 'No {}\'s in this word'.format(request.guess)
         if game.attempts_remaining < 1:
             game.end_game(False)
-            return game.to_form(msg + ' Game over!')
+            return game.to_form(msg + ' Game over!' + game.target_word)
         else:
             game.put()
             return game.to_form(msg)

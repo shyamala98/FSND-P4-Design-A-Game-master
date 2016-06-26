@@ -55,6 +55,7 @@ class Game(ndb.Model):
         form.letters_guessed = self.letters_guessed
         form.partial_word_guessed = self.partial_word_guessed
         form.message = message
+        form.is_cancelled = self.is_cancelled
         return form
 
     def end_game(self, won=False):

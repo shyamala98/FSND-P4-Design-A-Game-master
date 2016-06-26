@@ -17,6 +17,12 @@ with either: 'Good Guess! word has a <guess letter>' , 'you win' (if all the let
 number of attempts is reached).
 A player can play multiple games at a time. Each game can be retrieved or played by using the path parameter
 `urlsafe_game_key`.
+Scoring: The highest score a player can get is the maximum number of attempts for the game. The score for the player is 
+the number of attempts remaining for the player.
+When a player guesses a letter that does not occur in the target word, the 'score' decrements the number of attempts remaining. 
+When attempts remaining reaches 0, the player has lost the game. 
+If the player is able to guess all the letters in the target word, the player has won the game. A high score indicates 
+the player has won the game in fewer guesses.
 
 ##Files Included:
  - api.py: Contains endpoints and game playing logic.
